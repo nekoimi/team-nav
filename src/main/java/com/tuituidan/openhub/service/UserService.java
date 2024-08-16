@@ -136,7 +136,7 @@ public class UserService implements UserDetailsService, ApplicationRunner {
      * @param userDto userDto
      */
     public void save(String id, UserDto userDto) {
-        Assert.isTrue(!StringUtils.equalsIgnoreCase(userDto.getUsername(), "admin"), "默认管理员不可操作");
+        Assert.isTrue(!StringUtils.equalsIgnoreCase(userDto.getUsername(), Consts.AUTHORITY_ADMIN), "默认管理员不可操作");
         User user;
         User exitUser = userRepository.findByUsername(userDto.getUsername());
         if (StringUtils.isBlank(id)) {
@@ -166,7 +166,7 @@ public class UserService implements UserDetailsService, ApplicationRunner {
         Set<String> usernames = userRepository.findAllById(ids).stream()
                 .map(User::getUsername)
                 .collect(Collectors.toSet());
-        Assert.isTrue(!CollectionUtils.containsAny(usernames, "admin"), "默认管理员不可操作");
+        Assert.isTrue(!CollectionUtils.containsAny(usernames, Consts.AUTHORITY_ADMIN), "默认管理员不可操作");
         userRepository.deleteAllById(Arrays.asList(id));
         roleUserRepository.deleteByUserIdIn(ids);
     }

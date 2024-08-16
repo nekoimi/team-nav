@@ -1,5 +1,6 @@
 package com.tuituidan.openhub.bean.entity;
 
+import com.tuituidan.openhub.consts.Consts;
 import com.tuituidan.openhub.util.SecurityUtils;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -71,7 +72,7 @@ public class User implements UserDetails, Serializable {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (SecurityUtils.isAdmin(this)) {
-            return AuthorityUtils.createAuthorityList("admin");
+            return AuthorityUtils.createAuthorityList(Consts.AUTHORITY_ADMIN);
         }
         return Collections.emptyList();
     }

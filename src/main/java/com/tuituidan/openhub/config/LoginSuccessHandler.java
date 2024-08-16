@@ -3,6 +3,7 @@ package com.tuituidan.openhub.config;
 import com.tuituidan.openhub.bean.entity.RoleUser;
 import com.tuituidan.openhub.bean.entity.User;
 import com.tuituidan.openhub.bean.entity.UserStar;
+import com.tuituidan.openhub.consts.Consts;
 import com.tuituidan.openhub.repository.RoleUserRepository;
 import com.tuituidan.openhub.repository.UserStarRepository;
 import com.tuituidan.openhub.util.SecurityUtils;
@@ -51,7 +52,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         }
         Authentication newAuthentication = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(),
                 authentication.getCredentials(),
-                AuthorityUtils.createAuthorityList("admin"));
+                AuthorityUtils.createAuthorityList(Consts.AUTHORITY_ADMIN));
         SecurityContextHolder.getContext().setAuthentication(newAuthentication);
         super.onAuthenticationSuccess(request, response, newAuthentication);
     }

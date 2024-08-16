@@ -1,5 +1,6 @@
 package com.tuituidan.openhub.config;
 
+import com.tuituidan.openhub.consts.Consts;
 import com.tuituidan.openhub.service.UserService;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -57,7 +58,7 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .antMatchers(securityProperties.getPermitUrl()).permitAll()
                 .antMatchers(securityProperties.getGeneralUserUrl()).authenticated()
-                .antMatchers("/api/v1/**").hasAuthority("admin")
+                .antMatchers("/api/v1/**").hasAuthority(Consts.AUTHORITY_ADMIN)
                 .anyRequest()
                 .permitAll();
         http.exceptionHandling().defaultAuthenticationEntryPointFor((request, response, ex) ->
