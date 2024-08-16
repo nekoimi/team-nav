@@ -36,7 +36,12 @@ public class Consts {
     public static final String DEFAULT_ID = "1";
 
     /**
-     * 管理员角色
+     * 管理员
      */
     public static final String AUTHORITY_ADMIN = "admin";
+
+    /**
+     * 管理员角色名称
+     */
+    public static final String ADMIN_ROLE_NAME = "管理员";
 }

@@ -5,6 +5,7 @@ import com.tuituidan.openhub.bean.entity.Role;
 import com.tuituidan.openhub.bean.entity.RoleCategory;
 import com.tuituidan.openhub.bean.entity.RoleUser;
 import com.tuituidan.openhub.bean.vo.RoleVo;
+import com.tuituidan.openhub.consts.Consts;
 import com.tuituidan.openhub.repository.RoleCategoryRepository;
 import com.tuituidan.openhub.repository.RoleRepository;
 import com.tuituidan.openhub.repository.RoleUserRepository;
@@ -55,7 +56,16 @@ public class RoleService {
      * @return List
      */
     public List<Role> select() {
-        return roleRepository.findAll(Sort.by("updateTime").descending());
+        Specification<Role> search = (root, query, builder) -> {
+            Predicate predicate = builder.conjunction();
+
+            // 过滤管理员账号
+            predicate.getExpressions().add(builder.notEqual(root.get("roleName"), Consts.ADMIN_ROLE_NAME));
+
+            return predicate;
+        };
+
+        return roleRepository.findAll(search, Sort.by("updateTime").descending());
     }
 
     /**
@@ -69,6 +79,10 @@ public class RoleService {
     public Page<Role> selectPage(String keywords, Integer pageIndex, Integer pageSize) {
         Specification<Role> search = (root, query, builder) -> {
             Predicate predicate = builder.conjunction();
+
+            // 过滤管理员账号
+            predicate.getExpressions().add(builder.notEqual(root.get("roleName"), Consts.ADMIN_ROLE_NAME));
+
             if (StringUtils.isNotBlank(keywords)) {
                 predicate.getExpressions().add(builder.like(root.get("roleName"), "%" + keywords + "%"));
             }

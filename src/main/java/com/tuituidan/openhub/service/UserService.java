@@ -96,6 +96,9 @@ public class UserService implements UserDetailsService, ApplicationRunner {
     public Page<UserVo> selectPage(String keywords, Integer pageIndex, Integer pageSize) {
         Specification<User> search = (root, query, builder) -> {
             Predicate predicate = builder.conjunction();
+            // 返回过滤管理员账号
+            predicate.getExpressions().add(builder.notEqual(root.get("id"), Consts.DEFAULT_ID));
+
             if (StringUtils.isNotBlank(keywords)) {
                 predicate.getExpressions().add(builder.or(builder.like(root.get("username"), "%" + keywords + "%"),
                         builder.like(root.get("nickname"), "%" + keywords + "%")));
