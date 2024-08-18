@@ -29,12 +29,6 @@ const actions = {
         commit('SET_APPLY_COUNT', res);
       })
   },
-  // 登录
-  Login({commit}, userInfo) {
-    const username = userInfo.username.trim()
-    const password = userInfo.password
-    return http.post('/api/v1/quick/login', {username, password});
-  },
   // 获取用户信息
   GetUserInfo({commit, state}) {
     return http.get('/api/v1/login/user').then(res => {
@@ -63,6 +57,7 @@ const actions = {
   LogOut({commit, state}) {
     return http.post('/logout').then(() => {
       window.localStorage.userLogout = true;
+      window.location.href = "/";
     })
   },
 }

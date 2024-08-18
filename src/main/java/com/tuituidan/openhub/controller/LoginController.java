@@ -34,39 +34,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(Consts.API_V1)
 public class LoginController {
 
-    @Resource
-    private AuthenticationManager authenticationManager;
-
-    @Resource
-    private LoginSuccessHandler loginSuccessHandler;
-
-    @Resource
-    private UserService userService;
-
-    /**
-     * quickLogin
-     *
-     * @param loginDto loginDto
-     * @return boolean
-     */
-    @PostMapping("/quick/login")
-    public ResponseEntity<User> quickLogin(@RequestBody LoginDto loginDto) throws ServletException, IOException {
-        if (SecurityUtils.getUserInfo() != null) {
-            return ResponseEntity.ok(SecurityUtils.getUserInfo());
-        }
-        UsernamePasswordAuthenticationToken token
-                = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
-        Authentication authenticate = authenticationManager.authenticate(token);
-        Assert.notNull(authenticate, "登录失败");
-        SecurityContextHolder.getContext().setAuthentication(authenticate);
-        if (loginDto.getCardIds() != null) {
-            User userInfo = SecurityUtils.getUserInfo();
-            userService.userStarCard(userInfo.getId(), loginDto.getCardIds());
-        }
-        loginSuccessHandler.onAuthenticationSuccess(RequestUtils.getRequest(), ResponseUtils.getHttpResponse(),
-                authenticate);
-        return ResponseEntity.ok(SecurityUtils.getUserInfo());
-    }
+//    @Resource
+//    private AuthenticationManager authenticationManager;
+//
+//    @Resource
+//    private LoginSuccessHandler loginSuccessHandler;
+//
+//    @Resource
+//    private UserService userService;
+//
+//    /**
+//     * quickLogin
+//     *
+//     * @param loginDto loginDto
+//     * @return boolean
+//     */
+//    @PostMapping("/quick/login")
+//    public ResponseEntity<User> quickLogin(@RequestBody LoginDto loginDto) throws ServletException, IOException {
+//        if (SecurityUtils.getUserInfo() != null) {
+//            return ResponseEntity.ok(SecurityUtils.getUserInfo());
+//        }
+//        UsernamePasswordAuthenticationToken token
+//                = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+//        Authentication authenticate = authenticationManager.authenticate(token);
+//        Assert.notNull(authenticate, "登录失败");
+//        SecurityContextHolder.getContext().setAuthentication(authenticate);
+//        if (loginDto.getCardIds() != null) {
+//            User userInfo = SecurityUtils.getUserInfo();
+//            userService.userStarCard(userInfo.getId(), loginDto.getCardIds());
+//        }
+//        loginSuccessHandler.onAuthenticationSuccess(RequestUtils.getRequest(), ResponseUtils.getHttpResponse(),
+//                authenticate);
+//        return ResponseEntity.ok(SecurityUtils.getUserInfo());
+//    }
 
     /**
      * getUser

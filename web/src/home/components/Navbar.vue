@@ -16,15 +16,9 @@
     </el-input>
     <carousel-flip-notice class="carousel-flip-notice"></carousel-flip-notice>
     <div class="right-menu">
-      <template v-if="device!=='mobile'">
-        <screenfull class="right-menu-item hover-effect"/>
-        <doc v-if="showDoc" class="right-menu-item hover-effect"/>
-      </template>
-
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
           <header-avatar></header-avatar>
-          <i class="el-icon-caret-bottom"/>
         </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-if="!loginUser.id"
@@ -34,14 +28,12 @@
             <el-dropdown-item>后台管理</el-dropdown-item>
           </router-link>
           <el-dropdown-item @click.native="setting = true">布局设置</el-dropdown-item>
-          <el-dropdown-item v-if="loginUser.id" @click.native="openChangePassword">修改密码</el-dropdown-item>
           <el-dropdown-item v-if="loginUser.id && !loginUser.isAdmin">
             <card-apply>卡片申请</card-apply>
           </el-dropdown-item>
           <el-dropdown-item v-if="loginUser.id" divided @click.native="logout">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <change-password ref="changePassword"></change-password>
     </div>
   </div>
 </template>
@@ -53,7 +45,6 @@ export default {
   components: {
     'hamburger': () => import('@/components/Hamburger'),
     'screenfull': () => import('@/home/components/Screenfull'),
-    'change-password': () => import('@/home/components/change-password'),
     'header-avatar': () => import('@/components/header-avatar'),
     'doc': () => import('@/home/components/doc'),
     'card-apply': () => import('@/home/components/card-apply'),
@@ -96,14 +87,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$store.dispatch('user/LogOut').then(() => {
-          this.$store.dispatch('settings/loadVersion');
-        })
+        this.$store.dispatch('user/LogOut')
       }).catch(() => {
       });
-    },
-    openChangePassword() {
-      this.$refs.changePassword.open();
     }
   }
 }

@@ -1,8 +1,6 @@
 import axios from 'axios'
 import {Message} from 'element-ui'
 import QS from 'qs';
-import Vue from 'vue';
-import login, {isRelogin} from '@/components/login-dialog'
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -38,12 +36,7 @@ service.interceptors.response.use(res => {
       return Promise.reject(err)
     }
     if (err.response && err.response.status === 401) {
-      if (!isRelogin.show) {
-        isRelogin.show = true;
-        const constructor = Vue.extend(login);
-        const instance = new constructor();
-        instance.$mount();
-      }
+      location.href = '/login';
       return Promise.reject(err)
     }
     if (err.response && err.response.status === 403) {

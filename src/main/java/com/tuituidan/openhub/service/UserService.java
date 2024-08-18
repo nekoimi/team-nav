@@ -14,11 +14,8 @@ import com.tuituidan.openhub.repository.UserStarRepository;
 import com.tuituidan.openhub.util.BeanExtUtils;
 import com.tuituidan.openhub.util.ListUtils;
 import com.tuituidan.openhub.util.StringExtUtils;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import javax.persistence.criteria.Predicate;
@@ -156,6 +153,26 @@ public class UserService implements UserDetailsService, ApplicationRunner {
         roleUserRepository.saveAll(Arrays.stream(userDto.getRoleIds())
                 .map(roleId -> new RoleUser().setId(StringExtUtils.getUuid()).setRoleId(roleId)
                         .setUserId(user.getId())).collect(Collectors.toList()));
+        userRepository.save(user);
+    }
+
+    /**
+     * 保存
+     *
+     * @param id id
+     * @param userDto userDto
+     */
+    public void saveNewUser(String id, UserDto userDto) {
+        Assert.isTrue(!StringUtils.equalsIgnoreCase(userDto.getUsername(), Consts.AUTHORITY_ADMIN), "默认管理员不可操作");
+        User user;
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            user = userOptional.get();
+        } else {
+            user = new User();
+            user.setId(id);
+        }
+        BeanExtUtils.copyNotNullProperties(userDto, user);
         userRepository.save(user);
     }
 

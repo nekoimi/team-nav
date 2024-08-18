@@ -23,7 +23,7 @@ export default {
       if(this.loginUser.id){
         return '#409eff';
       }
-      return '#ccc'
+      return '#aaa'
     }
   },
 }

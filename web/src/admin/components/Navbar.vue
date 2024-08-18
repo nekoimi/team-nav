@@ -15,18 +15,11 @@
           <i class="el-icon-caret-bottom"/>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <a href="https://github.com/tuituidan/team-nav" target="_blank">
-            <el-badge is-dot :hidden="!version.hasNewVersion"
-                      :title="'最新版本：'+version.remoteVersion">
-              <el-dropdown-item>版本：{{ version.currentVersion }}</el-dropdown-item>
-            </el-badge>
-          </a>
-          <a target="_blank" href="https://github.com/tuituidan/team-nav/issues">
-            <el-dropdown-item>问题反馈</el-dropdown-item>
-          </a>
+          <el-dropdown-item v-if="loginUser.id && loginUser.isAdmin" @click.native="openChangePassword">修改密码</el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <change-password ref="changePassword"></change-password>
     </div>
   </div>
 </template>
@@ -38,12 +31,14 @@ export default {
   components: {
     Hamburger: () => import('@/components/Hamburger'),
     'header-avatar': () => import('@/components/header-avatar'),
+    'change-password': () => import('@/home/components/change-password'),
   },
   computed: {
     ...mapGetters([
       'sidebar',
       'version',
       'applyCount',
+      'loginUser',
     ]),
   },
   mounted() {
@@ -65,6 +60,9 @@ export default {
         })
       }).catch(() => {
       });
+    },
+    openChangePassword() {
+      this.$refs.changePassword.open();
     }
   }
 }

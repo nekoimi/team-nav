@@ -12,34 +12,52 @@
             <h1 class="login-header-h2">登录</h1>
         </div>
         <div class="login-form-wrapper">
-            <form onsubmit="return handleSubmit()" method="POST"
-                  th:action="${#request.getQueryString() != null ? #request.getRequestURL() + '?' + #request.getQueryString() : #request.getRequestURL()}">
-                <div class="username-wrapper">
-                    <input onfocus="inputFocus()"
-                           class="username username-input-default"
-                           type="text"
-                           name="username"
-                           id="username"
-                           value="admin"
-                           placeholder="请输入用户名">
-                </div>
-                <div class="password-wrapper">
-                    <input onfocus="inputFocus()"
-                           class="password password-input-default"
-                           type="password"
-                           name="password"
-                           id="password"
-                           value="123456"
-                           placeholder="请输入密码">
-                </div>
-                <div class="submit-btn-wrapper">
-                    <img class="btn-loading" src="./assets/images/loading.svg" alt="">
-                    <button type="submit" onclick="handleSubmit()" class="submit-btn">登录</button>
-                </div>
-                <div class="login-error-wrapper">
-                    <p class="login-error opacity1" th:text="${errorMsg}"></p>
-                </div>
-            </form>
+            <div id="login-form" class="hidden">
+                <form onsubmit="return handleSubmit()" method="POST"
+                      th:action="${#request.getQueryString() != null ? #request.getRequestURL() + '?' + #request.getQueryString() : #request.getRequestURL()}">
+                    <div class="username-wrapper">
+                        <input onfocus="inputFocus()"
+                               class="username username-input-default"
+                               type="text"
+                               name="username"
+                               id="username"
+                               value=""
+                               placeholder="请输入用户名">
+                    </div>
+                    <div class="password-wrapper">
+                        <input onfocus="inputFocus()"
+                               class="password password-input-default"
+                               type="password"
+                               name="password"
+                               id="password"
+                               value=""
+                               placeholder="请输入密码">
+                    </div>
+                    <div class="submit-btn-wrapper">
+                        <img class="btn-loading" src="./assets/images/loading.svg" alt="">
+                        <button type="submit" onclick="handleSubmit()" class="submit-btn">登录</button>
+                    </div>
+                    <div class="login-error-wrapper">
+                        <p class="login-error opacity1" th:text="${errorMsg}"></p>
+                    </div>
+                </form>
+            </div>
+            <div id="login-oauth2" class="show">
+                <th:block th:if="${!oauth2.isEmpty()}">
+                    <ul class="login-oauth2-ul">
+                        <li>
+                            <a th:each="client : ${oauth2}" th:href="@{/oauth2/authorization/{id}(id=${client.registrationId})}"
+                               th:text="${client.clientName}"/>
+                        </li>
+                    </ul>
+                </th:block>
+            </div>
+            <div class="login-maint">
+                <p>团队导航 <span>|</span> <span id="login-maint-a" href="javascript:;">维护入口</span></p>
+            </div>
+            <div class="login-maint-user hidden">
+                <p><a id="login-maint-b" href="javascript:;">返回用户登录</a></p>
+            </div>
         </div>
     </div>
 </div>

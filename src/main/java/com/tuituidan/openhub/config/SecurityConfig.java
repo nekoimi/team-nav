@@ -39,6 +39,9 @@ public class SecurityConfig {
     @Resource
     private LoginSuccessHandler loginSuccessHandler;
 
+    @Resource
+    private OidcLoginSuccessHandler oidcLoginSuccessHandler;
+
     /**
      * filterChain
      *
@@ -61,6 +64,15 @@ public class SecurityConfig {
                 .antMatchers("/api/v1/**").hasAuthority(Consts.AUTHORITY_ADMIN)
                 .anyRequest()
                 .permitAll();
+
+        // oauth2 - OIDC
+        oidcLoginSuccessHandler.setDefaultTargetUrl("/");
+        oidcLoginSuccessHandler.setAlwaysUseDefaultTargetUrl(true);
+        http.oauth2Login()
+                .loginPage("/login")
+                .failureUrl("/login")
+                .successHandler(oidcLoginSuccessHandler);
+
         http.exceptionHandling().defaultAuthenticationEntryPointFor((request, response, ex) ->
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED),
                 request -> "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With")));
@@ -69,8 +81,12 @@ public class SecurityConfig {
 
     private void setLogin(FormLoginConfigurer<HttpSecurity> login) {
         loginSuccessHandler.setTargetUrlParameter("returnUrl");
-        login.loginPage("/login").loginProcessingUrl("/login")
-                .successHandler(loginSuccessHandler);
+        loginSuccessHandler.setAlwaysUseDefaultTargetUrl(true);
+        loginSuccessHandler.setDefaultTargetUrl("/#/admin/category");
+        login.loginPage("/login")
+                .loginProcessingUrl("/login")
+                .successHandler(loginSuccessHandler)
+        ;
     }
 
     private void setLogout(LogoutConfigurer<HttpSecurity> logout) {

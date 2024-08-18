@@ -75,10 +75,10 @@ button:-moz-focusring, [type="button"]:-moz-focusring, [type="reset"]:-moz-focus
 .login-wrapper {
     display: flex;
     width: 480px;
-    height: 360px;
+    /*height: 360px;*/
     background: #fff;
     box-shadow: 0 20px 80px 0 rgba(0, 0, 0, 0.3);
-    margin: 50px auto 0 auto;
+    margin: 300px auto 0 auto;
 }
 
 .login-content {
@@ -214,4 +214,67 @@ button:-moz-focusring, [type="button"]:-moz-focusring, [type="reset"]:-moz-focus
 .opacity1 {
     opacity: 1;
     transition: opacity .5s;
+}
+
+#login-oauth2 {
+    padding: 10px 0;
+}
+
+ul.login-oauth2-ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 230px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.login-oauth2-ul li {
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+}
+
+ul.login-oauth2-ul li a {
+    display: block;
+    padding: 10px;
+    background-color: #1677ff;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.login-maint {
+    display: flex;
+    margin: 0;
+    justify-content: center;
+}
+
+.login-maint p {
+    display: block;
+    text-align: center;
+}
+
+.login-maint-user {
+    display: flex;
+    margin:0;
+    justify-content: center;
+}
+
+.login-maint-user p {
+    display: block;
+    text-align: center;
+}
+
+#login-maint-a {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.show {
+    display: block;
 }
